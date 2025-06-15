@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { google } = require('googleapis');
 const cors = require('cors');
@@ -6,6 +5,11 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ✅ Optional: Show status when visiting root URL
+app.get('/', (req, res) => {
+  res.send('✅ Ad Manager API is running. Use POST /fetch-data');
+});
 
 app.post('/fetch-data', async (req, res) => {
   const { client_id, client_secret, refresh_token, network_code } = req.body;
@@ -26,4 +30,6 @@ app.post('/fetch-data', async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('Server running at http://localhost:3000'));
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server running');
+});
